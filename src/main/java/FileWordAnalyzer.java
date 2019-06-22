@@ -12,14 +12,14 @@ public class FileWordAnalyzer {
     }
 
     public List<String> getWordsOrderedAlphabetically() throws IOException {
-        String text = filePartReader.readLines();
+        String text = filePartReader.readLines().replaceAll("[^\\sa-zA-Z0-9]+", "");;
         List<String> orderedWords = Arrays.asList(text.split("\\s+")).stream().sorted().collect(Collectors.toList());
         return orderedWords;
     }
 
 
     public List<String> getWordsContainingSubstrings(String subString) throws IOException{
-        String text = filePartReader.readLines();
+        String text = filePartReader.readLines().replaceAll("[^\\sa-zA-Z0-9]+", "");
         List<String> words = Arrays.asList(text.split("\\s+")).stream().
                 filter(element -> element.contains(subString)).collect(Collectors.toList());
         return words;
@@ -27,7 +27,7 @@ public class FileWordAnalyzer {
 
 
     public List<String> getStringsWhichPalindromes() throws IOException{
-        String text = filePartReader.readLines();
+        String text = filePartReader.readLines().replaceAll("[^\\sa-zA-Z0-9]+", "");;
         List<String> words = Arrays.asList(text.split("\\s+")).
                 stream().
                 filter(element -> element.equals(new StringBuilder(element).reverse().toString())).

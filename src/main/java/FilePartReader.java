@@ -3,8 +3,6 @@ import java.io.IOException;
 import java.io.StringReader;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.Iterator;
-import java.util.function.Supplier;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -16,15 +14,18 @@ public class FilePartReader {
 
 
     public FilePartReader(){
+        this.filePath = "someInvalidPath";
+        this.fromLine = -1;
+        this.toLine = -1;
     }
 
 
     public void setup(String filePath, Integer fromLine, Integer toLine){
-        this.filePath = filePath;
         if(toLine < fromLine || fromLine < 1){
             throw new IllegalArgumentException();
         }
         else {
+            this.filePath = filePath;
             this.fromLine = fromLine;
             this.toLine = toLine;
         }
@@ -36,8 +37,13 @@ public class FilePartReader {
     }
 
 
-    public String readLines() throws IOException{
-        String wholeString = read();
+    public String readLines() {
+        String wholeString = null;
+        try {
+            wholeString = read();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         BufferedReader bufferedReader = new BufferedReader(new StringReader(wholeString));
         Stream<String> limited = bufferedReader.lines().skip(fromLine-1).limit(toLine);
         return limited.collect(Collectors.joining("\n"));
