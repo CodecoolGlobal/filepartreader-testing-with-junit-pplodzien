@@ -24,11 +24,9 @@ public class FilePartReader {
         if(toLine < fromLine || fromLine < 1){
             throw new IllegalArgumentException();
         }
-        else {
-            this.filePath = filePath;
-            this.fromLine = fromLine;
-            this.toLine = toLine;
-        }
+        this.filePath = filePath;
+        this.fromLine = fromLine;
+        this.toLine = toLine;
     }
 
 
@@ -45,23 +43,8 @@ public class FilePartReader {
             e.printStackTrace();
         }
         BufferedReader bufferedReader = new BufferedReader(new StringReader(wholeString));
-        Stream<String> limited = bufferedReader.lines().skip(fromLine-1).limit(toLine);
+        Stream<String> limited = bufferedReader.lines().skip(fromLine-1).limit(toLine-fromLine+1);
         return limited.collect(Collectors.joining("\n"));
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 }
